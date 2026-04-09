@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>true-exploration</title>
+  </head>
+  <body>
+    <div id="main-menu">
+      <div class="menu-content">
+        <h1>True Exploration</h1>
+        <p>Choose your experience</p>
+        <div class="menu-buttons">
+          <button id="btn-offline" class="btn-primary">Play Offline</button>
+          <div class="online-section">
+            <h3>Online Modes</h3>
+            <div style="margin-bottom: 15px;">
+              <input type="text" id="server-code" placeholder="Server Code (leave empty for Public)" style="padding: 10px; width: 100%; box-sizing: border-box; border-radius: 5px; border: 1px solid #ccc; font-family: inherit;">
+            </div>
+            <button id="btn-online-freeroam" class="btn-secondary">Free Roam</button>
+            <button id="btn-online-tag" class="btn-secondary">Tag Game</button>
+            <button id="btn-online-paintball" class="btn-secondary">Paintball Game</button>
+            <button id="btn-online-dodgeball" class="btn-secondary">Dodgeball (Elimination)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

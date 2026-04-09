@@ -1,0 +1,101 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  background-color: #000;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+canvas {
+  display: block;
+}
+
+#ui-layer {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: white;
+  z-index: 10;
+  pointer-events: none;
+  text-shadow: 1px 1px 2px black;
+}
+
+/* Main Menu */
+#main-menu {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, rgba(13, 24, 33, 0.9) 0%, rgba(20, 35, 50, 0.9) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  backdrop-filter: blur(5px);
+}
+
+.menu-content {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 40px 60px;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+  color: white;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.menu-content h1 {
+  margin: 0 0 10px 0;
+  font-size: 3em;
+  color: #87ceeb;
+}
+
+.menu-content p {
+  color: #ccc;
+  margin-bottom: 30px;
+  font-size: 1.2em;
+}
+
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.online-section {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.online-section h3 {
+  margin: 0 0 15px 0;
+  font-size: 1.1em;
+  color: #ddd;
+}
+
+button {
+  background: #3a86ff;
+  color: white;
+  border: none;
+  padding: 15px 25px;
+  font-size: 1.1em;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: bold;
+}
+
+button:hover {
+  background: #256ce1;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(58, 134, 255, 0.4);
+}
+
+.btn-secondary {
+  background: #390099;
+  margin: 5px;
+}
+
+.btn-secondary:hover {
+  background: #2e007a;
+  box-shadow: 0 5px 15px rgba(57, 0, 153, 0.4);
+}
