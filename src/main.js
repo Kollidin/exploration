@@ -2,6 +2,7 @@
 import './style.css';
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
+import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory.js';
 import { createNoise2D } from 'simplex-noise';
 import { io } from 'socket.io-client';
 import { PlayerModel } from './PlayerModel.js';
@@ -37,6 +38,32 @@ function startGame(mode, gameType) {
     renderer.xr.enabled = true;
     document.body.appendChild(renderer.domElement);
     document.body.appendChild(VRButton.createButton(renderer));
+
+    const controller1 = renderer.xr.getController(0);
+    controller1.addEventListener('selectstart', () => {
+        if ((gameType === 'paintball' || gameType === 'dodgeball') && mode === 'online' && canShoot && !isEliminated) {
+            shootPaintball(controller1);
+        }
+    });
+    cameraGroup.add(controller1);
+
+    const controller2 = renderer.xr.getController(1);
+    controller2.addEventListener('selectstart', () => {
+        if ((gameType === 'paintball' || gameType === 'dodgeball') && mode === 'online' && canShoot && !isEliminated) {
+            shootPaintball(controller2);
+        }
+    });
+    cameraGroup.add(controller2);
+
+    const controllerModelFactory = new XRControllerModelFactory();
+
+    const controllerGrip1 = renderer.xr.getControllerGrip(0);
+    controllerGrip1.add(controllerModelFactory.createControllerModel(controllerGrip1));
+    cameraGroup.add(controllerGrip1);
+
+    const controllerGrip2 = renderer.xr.getControllerGrip(1);
+    controllerGrip2.add(controllerModelFactory.createControllerModel(controllerGrip2));
+    cameraGroup.add(controllerGrip2);
 
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
     scene.add(ambientLight);
@@ -348,17 +375,21 @@ function startGame(mode, gameType) {
     localPlayerModel.userData.model.head.visible = false; // Hidden in FP
     cameraGroup.add(localPlayerModel);
 
-    function shootPaintball() {
+    function shootPaintball(source = camera) {
         if (!socket || !socket.connected || isEliminated) return;
         canShoot = false;
         setTimeout(() => canShoot = true, 400); // Fire rate limiting
         
         const vel = new THREE.Vector3();
-        camera.getWorldDirection(vel);
-        vel.normalize().multiplyScalar(35);
+        source.getWorldDirection(vel);
+        
+        // For camera getWorldDirection gives forward (-z). 
+        // For Object3D getWorldDirection gives +z, so we might need to negate it if it shoots backward for controllers.
+        // Usually controller -Z is forward. Let's explicitly compute -Z.
+        vel.set(0, 0, -1).applyQuaternion(source.getWorldQuaternion(new THREE.Quaternion())).normalize().multiplyScalar(35);
         
         const pos = new THREE.Vector3();
-        camera.getWorldPosition(pos);
+        source.getWorldPosition(pos);
         
         const data = { position: pos, velocity: vel, owner: socket.id };
         spawnPaintball(data);
